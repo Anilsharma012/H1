@@ -332,7 +332,7 @@ export default function Index() {
           <CardContent className="pt-6 text-xs text-muted-foreground space-y-2">
             <p>
               <strong>Compliance (India):</strong> Products promising
-              fixed/assured returns or >3–4% per month are regulated. Obtain
+              fixed/assured returns or &gt;3–4% per month are regulated. Obtain
               legal advice on SEBI CIS/IA, RBI payment/escrow, Companies
               Act/NBFC, KYC/AML and ITR/TDS. Do not advertise guaranteed returns
               unless licensed.
