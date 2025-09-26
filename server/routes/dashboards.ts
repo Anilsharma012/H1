@@ -1,0 +1,93 @@
+import { RequestHandler } from "express";
+import { Investment, Payout, Withdrawal } from "../models/Finance";
+import { requireAuth, requireAdmin } from "./auth";
+import { isDbConnected } from "../db";
+
+export const userOverview: RequestHandler = [
+  requireAuth,
+  async (req, res) => {
+    if (!isDbConnected()) {
+      return res.json({
+        totalInvested: 0,
+        currentEarnings: 0,
+        pendingWithdrawals: 0,
+        nextPayoutDate: null,
+        referralEarnings: 0,
+      });
+    }
+    const userId = (req as any).user.sub;
+    const [investedAgg] = await Investment.aggregate([
+      {
+        $match: {
+          userId: (
+            await import("mongoose")
+          ).default.Types.ObjectId.createFromHexString(userId),
+        },
+      },
+      { $group: { _id: null, total: { $sum: "$principal" } } },
+    ]);
+    const totalInvested = investedAgg?.total || 0;
+    const currentEarnings = await Payout.aggregate([
+      {
+        $match: {
+          userId: (
+            await import("mongoose")
+          ).default.Types.ObjectId.createFromHexString(userId),
+          status: "paid",
+        },
+      },
+      { $group: { _id: null, total: { $sum: "$netPayout" } } },
+    ]).then((r) => r[0]?.total || 0);
+    const pendingWithdrawals = await Withdrawal.countDocuments({
+      userId,
+      status: { $in: ["requested", "approved", "processing"] },
+    });
+    const nextPayoutDate = await Payout.findOne({
+      userId,
+      status: { $in: ["scheduled", "processing"] },
+    })
+      .sort({ createdAt: 1 })
+      .then((p) => p?.createdAt ?? null);
+    res.json({
+      totalInvested,
+      currentEarnings,
+      pendingWithdrawals,
+      nextPayoutDate,
+      referralEarnings: 0,
+    });
+  },
+];
+
+export const adminOverview: RequestHandler = [
+  requireAuth,
+  requireAdmin,
+  async (_req, res) => {
+    if (!isDbConnected()) {
+      return res.json({
+        totalAUM: 0,
+        activeInvestors: 0,
+        todayInflows: 0,
+        payoutDueToday: 0,
+      });
+    }
+    const [aumAgg] = await Investment.aggregate([
+      { $group: { _id: null, total: { $sum: "$principal" } } },
+    ]);
+    const totalAUM = aumAgg?.total || 0;
+    const activeInvestors = await Investment.distinct("userId").then(
+      (ids) => ids.length,
+    );
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tmr = new Date(today);
+    tmr.setDate(today.getDate() + 1);
+    const todayInflows = await Investment.aggregate([
+      { $match: { createdAt: { $gte: today, $lt: tmr } } },
+      { $group: { _id: null, total: { $sum: "$principal" } } },
+    ]).then((r) => r[0]?.total || 0);
+    const payoutDueToday = await Payout.countDocuments({
+      status: { $in: ["scheduled", "processing"] },
+    });
+    res.json({ totalAUM, activeInvestors, todayInflows, payoutDueToday });
+  },
+];
