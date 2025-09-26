@@ -97,6 +97,38 @@ export default function AdminUsers() {
     window.open(url, "_blank");
   };
 
+  const startEdit = (u: UserItem) => {
+    setEditing(u);
+    setForm({
+      name: u.name || "",
+      email: u.email || "",
+      phone: u.phone || "",
+      status: u.status,
+      makeAdmin: u.role !== "admin" ? false : false,
+      removeAdmin: u.role === "admin" ? false : false,
+    });
+  };
+
+  const saveEdit = async () => {
+    if (!editing) return;
+    const r = await fetch(`/api/admin/users/${editing.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(form),
+    });
+    if (r.ok) {
+      setItems((prev) =>
+        prev.map((it) =>
+          it.id === editing.id
+            ? { ...it, name: form.name, email: form.email, phone: form.phone, status: form.status as any, role: form.removeAdmin ? "user" : form.makeAdmin ? "admin" : it.role }
+            : it,
+        ),
+      );
+      setEditing(null);
+    }
+  };
+
   return (
     <div className="grid gap-4">
       <div className="text-2xl font-semibold">Users & KYC</div>
