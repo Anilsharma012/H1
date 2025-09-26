@@ -99,6 +99,7 @@ export function createServer() {
   app.get("/api/admin/users", listUsers);
   app.get("/api/admin/users/export", exportUsersCsv);
   app.get("/api/admin/users/:id", getUser);
+  app.put("/api/admin/users/:id", updateUser);
   app.patch("/api/admin/users/:id/block", toggleBlock);
   app.patch("/api/admin/users/:id/promote", promoteUserToAdmin);
 
