@@ -45,6 +45,8 @@ export default function AdminUsers() {
   const [role, setRole] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [kycStatus, setKycStatus] = useState<string>("");
+  const [editing, setEditing] = useState<UserItem | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", status: "active", makeAdmin: false, removeAdmin: false });
   const limit = 10;
 
   const params = useMemo(() => {
