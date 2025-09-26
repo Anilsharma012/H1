@@ -16,7 +16,7 @@ import {
 } from "./routes/plans-crud";
 import { signup, login, me, logout, bootstrapAdmin, adminLogin } from "./routes/auth";
 import { userOverview, adminOverview } from "./routes/dashboards";
-import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin } from "./routes/admin-users";
+import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin, updateUser } from "./routes/admin-users";
 import { getKycQueue, submitKyc, approveKyc, rejectKyc } from "./routes/kyc";
 import { handleUpload } from "./routes/upload";
 
