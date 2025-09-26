@@ -287,7 +287,10 @@ export default function AdminUsers() {
                     </td>
                     <td>{u.kycDocMasked || ""}</td>
                     <td>{new Date(u.createdAt).toLocaleString()}</td>
-                    <td className="text-right">
+                    <td className="text-right space-x-2">
+                      <Button size="sm" variant="outline" onClick={() => startEdit(u)}>
+                        Edit
+                      </Button>
                       <Button
                         size="sm"
                         variant="outline"
