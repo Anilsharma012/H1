@@ -19,15 +19,15 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b bg-gradient-to-r from-white to-accent/20 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-primary/10 grid place-items-center">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-xl bg-primary/10 grid place-items-center">
             <span className="text-primary font-black">V</span>
           </div>
-          <span className="font-semibold">Vyomkesh Industries</span>
+          <span className="font-extrabold text-lg tracking-tight">Vyomkesh Industries</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-2">
           <NavItem to="/plans">Plans</NavItem>
           <NavItem to="/about">About</NavItem>
           <NavItem to="/faqs">FAQs</NavItem>
@@ -41,7 +41,7 @@ export function Header() {
           <Button asChild variant="outline" className="hidden sm:inline-flex">
             <Link to="/signup">Sign up</Link>
           </Button>
-          <Button asChild>
+          <Button asChild className="rounded-full">
             <Link to="/#calculator">Calculate Returns</Link>
           </Button>
         </div>
@@ -52,23 +52,22 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container py-10 grid gap-8 md:grid-cols-4">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 grid place-items-center">
+    <footer className="border-t bg-gradient-to-t from-accent/20 to-white">
+      <div className="container py-10 grid gap-8 md:grid-cols-5">
+        <div className="space-y-3 md:col-span-2">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-primary/10 grid place-items-center">
               <span className="text-primary font-black">V</span>
             </div>
-            <span className="font-semibold">Vyomkesh Industries</span>
+            <span className="font-extrabold tracking-tight">Vyomkesh Industries</span>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Regulator‑ready compliance, transparent ledgers, and dedicated
-            support.
+          <p className="text-base text-foreground/70">
+            Regulator‑ready compliance, transparent ledgers, and dedicated support.
           </p>
         </div>
         <div>
           <h4 className="font-semibold mb-3">Company</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
+          <ul className="space-y-2 text-sm text-foreground/70">
             <li>
               <Link to="/about">About</Link>
             </li>
@@ -82,7 +81,7 @@ export function Footer() {
         </div>
         <div>
           <h4 className="font-semibold mb-3">Legal</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
+          <ul className="space-y-2 text-sm text-foreground/70">
             <li>
               <Link to="/terms">Terms</Link>
             </li>
@@ -96,7 +95,7 @@ export function Footer() {
         </div>
         <div>
           <h4 className="font-semibold mb-3">Support</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
+          <ul className="space-y-2 text-sm text-foreground/70">
             <li>
               <a href="mailto:support@vyomkeshindustries.com">support@vyomkeshindustries.com</a>
             </li>
@@ -105,18 +104,11 @@ export function Footer() {
             </li>
           </ul>
         </div>
-        <div>
-          <h4 className="font-semibold mb-3">Get Started</h4>
-          <p className="text-sm text-muted-foreground mb-3">
-            Start investing with as little as ₹10,000.
-          </p>
-          <Button asChild className="w-full md:w-auto">
-            <Link to="#calculator">Start Investing</Link>
-          </Button>
+        <div className="md:col-span-5">
+          <div className="border-t py-4 text-center text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Vyomkesh Industries. All rights reserved.
+          </div>
         </div>
-      </div>
-      <div className="border-t py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Vyomkesh Industries. All rights reserved.
       </div>
     </footer>
   );
