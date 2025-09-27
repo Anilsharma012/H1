@@ -168,6 +168,40 @@ export const logout: RequestHandler = async (_req, res) => {
   res.json({ ok: true });
 };
 
+const resetRequestSchema = z
+  .object({ email: z.string().email().optional(), phone: z.string().min(8).optional() })
+  .refine((d) => Boolean(d.email || d.phone), { message: "Email or phone required" });
+
+export const requestPasswordReset: RequestHandler = async (req, res) => {
+  if (!isDbConnected()) return res.status(503).json({ message: "Database not configured" });
+  const parsed = resetRequestSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ message: "Invalid body" });
+  const { email, phone } = parsed.data;
+  const user = await User.findOne({ $or: [{ email }, { phone }] });
+  if (!user) return res.json({ ok: true });
+  const token = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+  (user as any).passwordReset = { token, expiresAt } as any;
+  await user.save();
+  res.json({ ok: true, token });
+};
+
+const resetSchema = z.object({ token: z.string().min(8), password: z.string().min(6) });
+
+export const resetPassword: RequestHandler = async (req, res) => {
+  if (!isDbConnected()) return res.status(503).json({ message: "Database not configured" });
+  const parsed = resetSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ message: "Invalid body" });
+  const { token, password } = parsed.data;
+  const user = await User.findOne({ "passwordReset.token": token });
+  if (!user || !user.passwordReset || !user.passwordReset.expiresAt || user.passwordReset.expiresAt < new Date())
+    return res.status(400).json({ message: "Invalid or expired token" });
+  user.passwordHash = await bcrypt.hash(password, 10);
+  (user as any).passwordReset = undefined as any;
+  await user.save();
+  res.json({ ok: true });
+};
+
 const bootstrapSchema = z
   .object({
     name: z.string().min(1),
