@@ -5,7 +5,6 @@ import { z } from "zod";
 import { User } from "../models/User";
 import type { UserDoc } from "../models/User";
 import { isDbConnected } from "../db";
-import type { RequestHandler } from "express";
 
 const JWT_COOKIE = "token";
 const JWT_EXPIRES = 60 * 60 * 24 * 7; // 7 days
