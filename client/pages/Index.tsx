@@ -98,9 +98,11 @@ export default function Index() {
             <Carousel className="rounded-2xl border overflow-hidden">
               <CarouselContent>
                 {[
-                  "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F74562001e27a420e9eb68e92dcd5df7b?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F73f59130f08544009e52aec8a7608078?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F1d4e4c1743cd40dda4b6e07514ce2354?format=webp&width=1200",
+                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F590e6630c75441e893e0ea7dbefaa1ea?format=webp&width=1200",
+                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fad10e03e2aad4b648544183ddc8307d0?format=webp&width=1200",
+                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F18953e26c2974f7d8a991a41ed137bb3?format=webp&width=1200",
+                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F4cecf75dd0ea48bb8081c5a5912f155a?format=webp&width=1200",
+                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fb926e04c235240e988e8a096fcba9e5e?format=webp&width=1200",
                 ].map((src, i) => (
                   <CarouselItem key={i} className="h-[280px] md:h-[360px]">
                     <img
@@ -120,7 +122,7 @@ export default function Index() {
 
       {/* Calculator */}
       <section id="calculator" className="container py-16">
-        <div className="max-w-3xl mb-10">
+        <div className="max-w-3xl mb-6">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Calculator
           </h2>
@@ -129,6 +131,11 @@ export default function Index() {
             with charges.
           </p>
         </div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fad10e03e2aad4b648544183ddc8307d0?format=webp&width=1200"
+          alt="Investment chart with coins"
+          className="w-full h-44 sm:h-56 object-cover rounded-xl border mb-6"
+        />
         <div className="grid lg:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
@@ -252,16 +259,14 @@ export default function Index() {
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F41cb3dd1429545ee8b6f21704ee900ee?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F31681423a2f04d0cadd7f4b064afe344?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2F6815bc17fe1c4d358639d5af2085f602?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2Fa2a0e9a04cae40b5bc15bc45125875a5?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F0be38d2e22604e97975d8a88e095cc9c%2Fa23434a7f6e748a9abb04f0e8136d437?format=webp&width=1200",
+            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F8b9f773ba299446a8aa397067c60806a?format=webp&width=1200",
+            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fb926e04c235240e988e8a096fcba9e5e?format=webp&width=1200",
+            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F18953e26c2974f7d8a991a41ed137bb3?format=webp&width=1200",
           ].map((src) => (
             <img
               key={src}
               src={src}
-              alt="investment"
+              alt="operations and growth"
               className="w-full h-56 object-cover rounded-xl border"
             />
           ))}

@@ -80,6 +80,10 @@ const UserSchema = new Schema(
     },
     roles: { type: [String], default: ["user"], index: true },
     devices: { type: [DeviceSchema], default: [] },
+    passwordReset: {
+      token: String,
+      expiresAt: Date,
+    },
   },
   { timestamps: true, collection: "users" },
 );

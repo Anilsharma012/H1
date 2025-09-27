@@ -230,3 +230,53 @@ export const promoteUserToAdmin: RequestHandler = [
     res.json({ ok: true, roles: u.roles });
   },
 ];
+
+const updateUserSchema = z
+  .object({
+    name: z.string().min(1).optional(),
+    email: z.string().email().optional(),
+    phone: z.string().min(8).optional(),
+    status: z.enum(["active", "blocked"]).optional(),
+    makeAdmin: z.boolean().optional(),
+    removeAdmin: z.boolean().optional(),
+  })
+  .refine((d) => Boolean(d.name || d.email || d.phone || d.status || d.makeAdmin || d.removeAdmin), {
+    message: "No changes provided",
+  });
+
+export const updateUser: RequestHandler = [
+  requireAuth,
+  requireAdmin,
+  async (req, res) => {
+    if (!isDbConnected())
+      return res.status(503).json({ message: "DB not configured" });
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id))
+      return res.status(400).json({ message: "Invalid id" });
+    const parsed = updateUserSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Invalid body" });
+    const { name, email, phone, status, makeAdmin, removeAdmin } = parsed.data;
+
+    if (email) {
+      const exists = await User.findOne({ email, _id: { $ne: id } });
+      if (exists) return res.status(409).json({ message: "Email already in use" });
+    }
+    if (phone) {
+      const exists = await User.findOne({ phone, _id: { $ne: id } });
+      if (exists) return res.status(409).json({ message: "Phone already in use" });
+    }
+
+    const u = await User.findById(id);
+    if (!u) return res.status(404).json({ message: "Not found" });
+    if (typeof name === "string") u.name = name;
+    if (typeof email === "string") u.email = email as any;
+    if (typeof phone === "string") u.phone = phone as any;
+    if (status) u.status = status as any;
+
+    if (makeAdmin) u.roles = Array.from(new Set([...(u.roles || []), "admin"]));
+    if (removeAdmin) u.roles = (u.roles || []).filter((r) => r !== "admin");
+
+    await u.save();
+    res.json({ ok: true });
+  },
+];

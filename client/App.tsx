@@ -20,6 +20,8 @@ import Privacy from "@/pages/Privacy";
 import Risk from "@/pages/Risk";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
+import Forgot from "@/pages/Forgot";
+import Reset from "@/pages/Reset";
 import AdminBootstrap from "@/pages/AdminBootstrap";
 import { UserShell, AdminShell } from "@/components/layout/AppShell";
 import UserOverview from "@/pages/app/Overview";
@@ -70,6 +72,8 @@ const App = () => (
               <Route path="/risk" element={<Risk />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot" element={<Forgot />} />
+              <Route path="/reset" element={<Reset />} />
               <Route path="/admin-bootstrap" element={<AdminBootstrap />} />
               <Route path="/admin/login" element={<AdminLogin />} />
 

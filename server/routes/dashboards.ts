@@ -67,7 +67,12 @@ export const adminOverview: RequestHandler = [
         totalAUM: 0,
         activeInvestors: 0,
         todayInflows: 0,
+        todayOutflows: 0,
+        pendingKYCs: 0,
+        pendingWithdrawals: 0,
         payoutDueToday: 0,
+        referralCosts: 0,
+        chargeIncome: 0,
       });
     }
     const [aumAgg] = await Investment.aggregate([
@@ -85,9 +90,23 @@ export const adminOverview: RequestHandler = [
       { $match: { createdAt: { $gte: today, $lt: tmr } } },
       { $group: { _id: null, total: { $sum: "$principal" } } },
     ]).then((r) => r[0]?.total || 0);
-    const payoutDueToday = await Payout.countDocuments({
-      status: { $in: ["scheduled", "processing"] },
-    });
-    res.json({ totalAUM, activeInvestors, todayInflows, payoutDueToday });
+    const todayOutflows = await Withdrawal.aggregate([
+      { $match: { status: "paid", paidAt: { $gte: today, $lt: tmr } } },
+      { $group: { _id: null, total: { $sum: "$netAmount" } } },
+    ]).then((r) => r[0]?.total || 0);
+    const pendingKYCs = await (await import("../models/User")).User.countDocuments({ "kyc.status": "pending" });
+    const pendingWithdrawals = await Withdrawal.countDocuments({ status: { $in: ["requested", "approved", "processing", "compliance_check"] } });
+    const payoutDueToday = await Payout.countDocuments({ status: { $in: ["scheduled", "processing"] } });
+    // Optional ledger based metrics
+    const referralCosts = await (await import("../models/Finance")).Ledger.aggregate([
+      { $match: { type: "referral_payout" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]).then((r) => r[0]?.total || 0);
+    const chargeIncome = await (await import("../models/Finance")).Ledger.aggregate([
+      { $match: { type: "admin_charge" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]).then((r) => r[0]?.total || 0);
+
+    res.json({ totalAUM, activeInvestors, todayInflows, todayOutflows, pendingKYCs, pendingWithdrawals, payoutDueToday, referralCosts, chargeIncome });
   },
 ];

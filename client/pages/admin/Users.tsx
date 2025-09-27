@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 
 type UserItem = {
@@ -44,6 +45,8 @@ export default function AdminUsers() {
   const [role, setRole] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [kycStatus, setKycStatus] = useState<string>("");
+  const [editing, setEditing] = useState<UserItem | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", status: "active", makeAdmin: false, removeAdmin: false });
   const limit = 10;
 
   const params = useMemo(() => {
@@ -92,6 +95,38 @@ export default function AdminUsers() {
   const exportCsv = () => {
     const url = `/api/admin/users/export?${params}`;
     window.open(url, "_blank");
+  };
+
+  const startEdit = (u: UserItem) => {
+    setEditing(u);
+    setForm({
+      name: u.name || "",
+      email: u.email || "",
+      phone: u.phone || "",
+      status: u.status,
+      makeAdmin: u.role !== "admin" ? false : false,
+      removeAdmin: u.role === "admin" ? false : false,
+    });
+  };
+
+  const saveEdit = async () => {
+    if (!editing) return;
+    const r = await fetch(`/api/admin/users/${editing.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(form),
+    });
+    if (r.ok) {
+      setItems((prev) =>
+        prev.map((it) =>
+          it.id === editing.id
+            ? { ...it, name: form.name, email: form.email, phone: form.phone, status: form.status as any, role: form.removeAdmin ? "user" : form.makeAdmin ? "admin" : it.role }
+            : it,
+        ),
+      );
+      setEditing(null);
+    }
   };
 
   return (
@@ -252,7 +287,10 @@ export default function AdminUsers() {
                     </td>
                     <td>{u.kycDocMasked || ""}</td>
                     <td>{new Date(u.createdAt).toLocaleString()}</td>
-                    <td className="text-right">
+                    <td className="text-right space-x-2">
+                      <Button size="sm" variant="outline" onClick={() => startEdit(u)}>
+                        Edit
+                      </Button>
                       <Button
                         size="sm"
                         variant="outline"
@@ -291,6 +329,54 @@ export default function AdminUsers() {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit user</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-3">
+            <div>
+              <Label>Name</Label>
+              <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            </div>
+            <div>
+              <Label>Email</Label>
+              <Input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            </div>
+            <div>
+              <Label>Phone</Label>
+              <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            </div>
+            <div>
+              <Label>Status</Label>
+              <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="blocked">Blocked</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-4 text-sm">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" checked={form.makeAdmin} onChange={(e) => setForm({ ...form, makeAdmin: e.target.checked, removeAdmin: false })} />
+                Make admin
+              </label>
+              <label className="flex items-center gap-2">
+                <input type="checkbox" checked={form.removeAdmin} onChange={(e) => setForm({ ...form, removeAdmin: e.target.checked, makeAdmin: false })} />
+                Remove admin
+              </label>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
+            <Button onClick={saveEdit}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -40,7 +40,6 @@ export function AdminShell({ children }: PropsWithChildren) {
   const { logout } = useAuth();
   const doLogout = async () => {
     try {
-      localStorage.removeItem("admin_token");
       await logout();
     } finally {
       window.location.href = "/admin/login";

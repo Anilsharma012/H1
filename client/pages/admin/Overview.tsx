@@ -23,7 +23,12 @@ export default function Overview() {
         { k: "totalAUM", label: "Total AUM", fmt: fmtINR },
         { k: "activeInvestors", label: "Active Investors", fmt: fmtInt },
         { k: "todayInflows", label: "Today Inflows", fmt: fmtINR },
+        { k: "todayOutflows", label: "Today Outflows", fmt: fmtINR },
+        { k: "pendingKYCs", label: "Pending KYCs", fmt: fmtInt },
+        { k: "pendingWithdrawals", label: "Pending Withdrawals", fmt: fmtInt },
         { k: "payoutDueToday", label: "Payout Due Today", fmt: fmtInt },
+        { k: "referralCosts", label: "Referral Costs", fmt: fmtINR },
+        { k: "chargeIncome", label: "Charge Income", fmt: fmtINR },
       ].map((m) => (
         <Card key={m.k}>
           <CardContent className="p-5">

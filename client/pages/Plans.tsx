@@ -56,6 +56,11 @@ export default function Plans() {
           Investment ÷ 12).
         </p>
       </div>
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F18953e26c2974f7d8a991a41ed137bb3?format=webp&width=1600"
+        alt="High returns banner"
+        className="w-full h-44 md:h-56 object-cover rounded-xl border"
+      />
 
       <Card>
         <CardContent className="p-5 grid md:grid-cols-[240px_1fr] gap-3 items-center">

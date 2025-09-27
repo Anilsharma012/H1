@@ -14,9 +14,9 @@ import {
   deletePlan,
   seedPlansIfEmpty,
 } from "./routes/plans-crud";
-import { signup, login, me, logout, bootstrapAdmin, adminLogin } from "./routes/auth";
+import { signup, login, me, logout, bootstrapAdmin, adminLogin, requestPasswordReset, resetPassword } from "./routes/auth";
 import { userOverview, adminOverview } from "./routes/dashboards";
-import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin } from "./routes/admin-users";
+import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin, updateUser } from "./routes/admin-users";
 import { getKycQueue, submitKyc, approveKyc, rejectKyc } from "./routes/kyc";
 import { handleUpload } from "./routes/upload";
 
@@ -78,6 +78,8 @@ export function createServer() {
   app.post("/api/auth/login", login);
   app.post("/api/auth/logout", logout);
   app.get("/api/me", me);
+  app.post("/api/auth/request-reset", requestPasswordReset);
+  app.post("/api/auth/reset-password", resetPassword);
 
   // Admin auth
   app.post("/api/admin/login", adminLogin);
@@ -99,6 +101,7 @@ export function createServer() {
   app.get("/api/admin/users", listUsers);
   app.get("/api/admin/users/export", exportUsersCsv);
   app.get("/api/admin/users/:id", getUser);
+  app.put("/api/admin/users/:id", updateUser);
   app.patch("/api/admin/users/:id/block", toggleBlock);
   app.patch("/api/admin/users/:id/promote", promoteUserToAdmin);
 
