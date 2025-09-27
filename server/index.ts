@@ -14,7 +14,7 @@ import {
   deletePlan,
   seedPlansIfEmpty,
 } from "./routes/plans-crud";
-import { signup, login, me, logout, bootstrapAdmin, adminLogin } from "./routes/auth";
+import { signup, login, me, logout, bootstrapAdmin, adminLogin, requestPasswordReset, resetPassword } from "./routes/auth";
 import { userOverview, adminOverview } from "./routes/dashboards";
 import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin, updateUser } from "./routes/admin-users";
 import { getKycQueue, submitKyc, approveKyc, rejectKyc } from "./routes/kyc";
