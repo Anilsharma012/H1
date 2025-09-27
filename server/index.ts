@@ -14,7 +14,7 @@ import {
   deletePlan,
   seedPlansIfEmpty,
 } from "./routes/plans-crud";
-import { signup, login, me, logout, bootstrapAdmin, adminLogin, requestPasswordReset, resetPassword } from "./routes/auth";
+import { signup, login, me, logout, bootstrapAdmin, adminLogin, requestPasswordReset, resetPassword, requireAuth, requireAdmin } from "./routes/auth";
 import { userOverview, adminOverview } from "./routes/dashboards";
 import { listUsers, getUser, toggleBlock, exportUsersCsv, promoteUserToAdmin, updateUser } from "./routes/admin-users";
 import { getKycQueue, submitKyc, approveKyc, rejectKyc } from "./routes/kyc";
@@ -98,32 +98,32 @@ export function createServer() {
 
   // New Plans CRUD
   app.get("/api/plans", getPublicPlans);
-  app.get("/api/admin/plans", getAdminPlans);
-  app.post("/api/admin/plans", createPlan);
-  app.put("/api/admin/plans/:id", updatePlan);
-  app.patch("/api/admin/plans/:id/toggle", togglePlan);
-  app.delete("/api/admin/plans/:id", deletePlan);
+  app.get("/api/admin/plans", requireAuth, requireAdmin, getAdminPlans);
+  app.post("/api/admin/plans", requireAuth, requireAdmin, createPlan);
+  app.put("/api/admin/plans/:id", requireAuth, requireAdmin, updatePlan);
+  app.patch("/api/admin/plans/:id/toggle", requireAuth, requireAdmin, togglePlan);
+  app.delete("/api/admin/plans/:id", requireAuth, requireAdmin, deletePlan);
 
   // Users & Admin
-  app.get("/api/admin/users", listUsers);
-  app.get("/api/admin/users/export", exportUsersCsv);
-  app.get("/api/admin/users/:id", getUser);
-  app.put("/api/admin/users/:id", updateUser);
-  app.patch("/api/admin/users/:id/block", toggleBlock);
-  app.patch("/api/admin/users/:id/promote", promoteUserToAdmin);
+  app.get("/api/admin/users", requireAuth, requireAdmin, listUsers);
+  app.get("/api/admin/users/export", requireAuth, requireAdmin, exportUsersCsv);
+  app.get("/api/admin/users/:id", requireAuth, requireAdmin, getUser);
+  app.put("/api/admin/users/:id", requireAuth, requireAdmin, updateUser);
+  app.patch("/api/admin/users/:id/block", requireAuth, requireAdmin, toggleBlock);
+  app.patch("/api/admin/users/:id/promote", requireAuth, requireAdmin, promoteUserToAdmin);
 
   // KYC
-  app.get("/api/admin/kyc", getKycQueue);
-  app.post("/api/users/kyc/submit", submitKyc);
-  app.patch("/api/admin/kyc/:userId/approve", approveKyc);
-  app.patch("/api/admin/kyc/:userId/reject", rejectKyc);
+  app.get("/api/admin/kyc", requireAuth, requireAdmin, getKycQueue);
+  app.post("/api/users/kyc/submit", requireAuth, submitKyc);
+  app.patch("/api/admin/kyc/:userId/approve", requireAuth, requireAdmin, approveKyc);
+  app.patch("/api/admin/kyc/:userId/reject", requireAuth, requireAdmin, rejectKyc);
 
   // Uploads
-  app.post("/api/upload", handleUpload);
+  app.post("/api/upload", requireAuth, handleUpload);
 
   // Dashboards
-  app.get("/api/app/overview", userOverview);
-  app.get("/api/admin/overview", adminOverview);
+  app.get("/api/app/overview", requireAuth, userOverview);
+  app.get("/api/admin/overview", requireAuth, requireAdmin, adminOverview);
 
   return app;
 }
