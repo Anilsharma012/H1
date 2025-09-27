@@ -74,10 +74,10 @@ export default function Index() {
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs text-muted-foreground mb-4">
               Secure • Compliant • Transparent
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-tight text-black">
               Secure Your Future with High‑Return Investment Plans
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-prose">
+            <p className="mt-6 text-xl md:text-2xl text-black font-semibold max-w-prose">
               Annualized target bands 48% • 60% • 72% • 84%. Special 10% monthly
               payout for ≥₹2,00,000, subject to compliance and plan T&Cs.
             </p>
@@ -98,16 +98,16 @@ export default function Index() {
             <Carousel className="rounded-2xl border overflow-hidden">
               <CarouselContent>
                 {[
-                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F590e6630c75441e893e0ea7dbefaa1ea?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fad10e03e2aad4b648544183ddc8307d0?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F18953e26c2974f7d8a991a41ed137bb3?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F4cecf75dd0ea48bb8081c5a5912f155a?format=webp&width=1200",
-                  "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fb926e04c235240e988e8a096fcba9e5e?format=webp&width=1200",
+                  "/attached_assets/stock_images/professional_investm_17df31a9.jpg",
+                  "/attached_assets/stock_images/modern_office_buildi_35c11222.jpg",
+                  "/attached_assets/stock_images/successful_businessw_28296cf9.jpg",
+                  "/attached_assets/stock_images/digital_technology_c_57dea852.jpg",
+                  "/attached_assets/stock_images/professional_investm_b7ac9384.jpg",
                 ].map((src, i) => (
-                  <CarouselItem key={i} className="h-[280px] md:h-[360px]">
+                  <CarouselItem key={i} className="h-[320px] md:h-[400px]">
                     <img
                       src={src}
-                      alt="Investment banner"
+                      alt="Investment and financial services"
                       className="w-full h-full object-cover"
                     />
                   </CarouselItem>
@@ -123,18 +123,18 @@ export default function Index() {
       {/* Calculator */}
       <section id="calculator" className="container py-16">
         <div className="max-w-3xl mb-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Calculator
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight text-black">
+            Investment Calculator
           </h2>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mt-4 text-lg md:text-xl text-black font-semibold">
             Enter investment amount and month to preview your monthly payout
-            with charges.
+            with charges. Get real-time calculations for your investment returns.
           </p>
         </div>
         <img
-          src="https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fad10e03e2aad4b648544183ddc8307d0?format=webp&width=1200"
-          alt="Investment chart with coins"
-          className="w-full h-44 sm:h-56 object-cover rounded-xl border mb-6"
+          src="/attached_assets/stock_images/digital_technology_c_18eb62a5.jpg"
+          alt="Digital financial technology and investment charts"
+          className="w-full h-56 sm:h-64 object-cover rounded-xl border mb-8"
         />
         <div className="grid lg:grid-cols-2 gap-6">
           <Card>
@@ -222,8 +222,8 @@ export default function Index() {
 
       {/* Plans Grid */}
       <section className="container py-16">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
-          Plans
+        <h2 className="text-4xl md:text-6xl font-black tracking-tight text-black mb-12">
+          Investment Plans & Returns
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {plan.bands.map((b) => (
@@ -254,29 +254,34 @@ export default function Index() {
 
       {/* Gallery */}
       <section className="container py-16">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
-          Gallery
+        <h2 className="text-4xl md:text-6xl font-black tracking-tight text-black mb-12">
+          Our Services & Expertise
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F8b9f773ba299446a8aa397067c60806a?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2Fb926e04c235240e988e8a096fcba9e5e?format=webp&width=1200",
-            "https://cdn.builder.io/api/v1/image/assets%2F10403533cf314100a836b80ad6ee216d%2F18953e26c2974f7d8a991a41ed137bb3?format=webp&width=1200",
-          ].map((src) => (
-            <img
-              key={src}
-              src={src}
-              alt="operations and growth"
-              className="w-full h-56 object-cover rounded-xl border"
-            />
+            { src: "/attached_assets/stock_images/modern_office_buildi_18e1b21e.jpg", alt: "Modern corporate investment facilities" },
+            { src: "/attached_assets/stock_images/successful_businessw_4b9b9c61.jpg", alt: "Professional financial advisory services" },
+            { src: "/attached_assets/stock_images/digital_technology_c_f0e4fcd4.jpg", alt: "Advanced fintech solutions" },
+            { src: "/attached_assets/stock_images/professional_investm_528cab64.jpg", alt: "Expert investment management" },
+          ].map((img) => (
+            <div key={img.src} className="relative overflow-hidden rounded-xl border">
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+                <p className="font-semibold text-sm">{img.alt}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
       {/* Why */}
       <section className="container py-16">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
-          Why Vyomkesh
+        <h2 className="text-4xl md:text-6xl font-black tracking-tight text-black mb-12">
+          Why Choose Vyomkesh Industries
         </h2>
         <div className="grid md:grid-cols-4 gap-6">
           {[
@@ -311,8 +316,8 @@ export default function Index() {
 
       {/* How It Works */}
       <section className="container py-16">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
-          How It Works
+        <h2 className="text-4xl md:text-6xl font-black tracking-tight text-black mb-12">
+          Simple Investment Process
         </h2>
         <ol className="grid md:grid-cols-5 gap-4 text-sm">
           {["Sign up", "KYC", "Invest", "Monthly Payouts", "Track on App"].map(
