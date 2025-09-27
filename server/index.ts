@@ -78,6 +78,8 @@ export function createServer() {
   app.post("/api/auth/login", login);
   app.post("/api/auth/logout", logout);
   app.get("/api/me", me);
+  app.post("/api/auth/request-reset", (await import("./routes/auth")).requestPasswordReset);
+  app.post("/api/auth/reset-password", (await import("./routes/auth")).resetPassword);
 
   // Admin auth
   app.post("/api/admin/login", adminLogin);
