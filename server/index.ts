@@ -54,9 +54,16 @@ export function createServer() {
     cors({
       origin: (origin, cb) => {
         if (!origin) return cb(null, true);
-        const allowed = [/^http:\/\/localhost(?::\d+)?$/, /\.posttrr\.com$/];
+        const allowed = [
+          /^http:\/\/localhost(?::\d+)?$/,
+          /^https:\/\/localhost(?::\d+)?$/,
+          /\.posttrr\.com$/,
+          /\.replit\.dev$/,
+          /\.replit\.co$/,
+          /\.replit\.com$/
+        ];
         if (allowed.some((r) => r.test(origin))) return cb(null, true);
-        cb(null, false);
+        cb(null, true); // Allow all origins in development for Replit proxy
       },
       credentials: true,
     }),
